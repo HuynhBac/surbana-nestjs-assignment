@@ -5,5 +5,6 @@ export const PostgreDBProvider = TypeOrmModule.forRoot({
   ...config.postgreDBConfig,
   type: 'postgres',
   port: +config.postgreDBConfig.port,
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  entities: ["dist/**/*.entity.js"],
+  autoLoadEntities: true
 });

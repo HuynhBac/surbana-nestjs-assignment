@@ -7,6 +7,9 @@ export const ProductionConfig: Config = {
     username: process.env.POSTGRE_DB_USERNAME || '',
     password: process.env.POSTGRE_DB_PASSWORD || '',
     database: process.env.POSTGRE_DB_DATABASE || '',
-    synchronize: true,
+    synchronize: false,
+  },
+  serverConfig: {
+    port: process.env.SERVER_PORT || ''
   }
 }
