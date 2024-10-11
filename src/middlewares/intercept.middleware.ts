@@ -11,11 +11,11 @@ export class InterceptMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: Function) {
     try {
       console.log('Request...');
-      const { method, originalUrl ,query, params, } = req;
+      const { method, originalUrl ,query, params, body } = req;
       logger.log(`'${originalUrl}' - ${method} Called - Data recieved :`);
-      logger.log(`API method: ${method}`);
       logger.log('API query: ', JSON.stringify(query, null, 2));
       logger.log('API params: ', JSON.stringify(params, null, 2));
+      logger.log('API body: ', JSON.stringify(body, null, 2));
       next();
       return;
     } catch (error) {

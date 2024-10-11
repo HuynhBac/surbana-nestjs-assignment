@@ -10,10 +10,10 @@ import { DatabaseModule } from './database/database.module';
   imports: [RoutesModule, DatabaseModule],
   controllers: [AppController],
   providers: [
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter
-    },
+    // {
+    //   provide: APP_FILTER,
+    //   useClass: HttpExceptionFilter
+    // },
     AppService
   ]
 })

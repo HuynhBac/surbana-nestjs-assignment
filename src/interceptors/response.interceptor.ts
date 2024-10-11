@@ -10,11 +10,11 @@ import { map } from 'rxjs/operators';
 export class ResponseInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(map((response) => {
-      const message = response.message || 'Call API successfully';
+      const message = response.message || 'Request data successfully';
         return {
           status: HttpStatus.OK,
           message: message,
-          data: response.data || response,
+          data: response.data || {},
         };
     }));
   }

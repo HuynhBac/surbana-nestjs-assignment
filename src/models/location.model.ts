@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocationEntity } from 'src/entities/location.entity';
+import { CreateLocationDto, UpdateLocationDto } from 'src/validator/location.validator';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -12,27 +13,43 @@ export class LocationModel {
 
   // Get all locations
   getAll() {
-    return this.locationRepository.find();
+    return this.locationRepository.find({
+      where: {
+        is_deleted: false
+      }
+    });
   }
 
   // Get location by ID
-  getById(id: number) {
-    return this.locationRepository.findOne({ where: { id } });
+  async getById(id: number) {
+    const findLocation = await this.locationRepository.findOne({ where: { id, is_deleted: false } });
+    return findLocation;
   }
 
   // Create new location
-  create(location: Partial<LocationEntity>) {
+  async create(location: CreateLocationDto) {
     const newLocation = this.locationRepository.create(location);
-    return this.locationRepository.save(newLocation);
+    const instance = await this.locationRepository.save(newLocation);
+    return instance;
   }
 
   // Update location
-  update(id: number, location: Partial<LocationEntity>) {
+  async update(id: number, location: UpdateLocationDto) {
+    const findLocation = await this.getById(id);
+    if (!findLocation) {
+      throw new NotFoundException('Location not found');
+    }
     return this.locationRepository.update(id, location);
   }
 
   // Delete location
-  deleteById(id: number) {
-    return this.locationRepository.delete(id);
+  async deleteById(id: number) {
+    const findLocation = await this.getById(id);
+    if (!findLocation) {
+      throw new NotFoundException('Location not found');
+    }
+    findLocation.is_deleted = true;
+    findLocation.deleted_at = new Date();
+    await this.locationRepository.save(findLocation);
   }
 }

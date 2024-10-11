@@ -12,6 +12,9 @@
       "cwd": "${workspaceFolder}",
       "skipFiles": ["<node_internals>/**"],
       "console": "integratedTerminal",
+      "env": {
+        "ENVIRONMENT": "DEVELOPMENT"
+      }
     }
   ]
 }

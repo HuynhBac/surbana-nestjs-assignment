@@ -1,9 +1,7 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpStatus, UseFilters, ForbiddenException } from '@nestjs/common';
-import { LocationEntity } from 'src/entities/location.entity';
-import { HttpExceptionFilter } from 'src/http-exception.filter';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { CustomValidationPipe } from 'src/pipes/custom-validation.pipe';
 import { LocationService } from 'src/services/location.service';
-import { CreateLocationValidator } from 'src/validator/location/create-location.validator';
+import { CreateLocationDto, UpdateLocationDto } from 'src/validator/location.validator';
 import { RequestResponse } from './request-response';
 
 @Controller('location')
@@ -19,30 +17,44 @@ export class LocationController {
         name: item.name,
         building: item.building,
         area: item.area,
-        parent_id: item.parentId
+        parent_id: item.parentId,
+        created_at: item.createdAt,
+        updated_at: item.updatedAt
       };
     });
     return new RequestResponse('Get all locations successfully!', locations);
   }
 
   @Get(':id')
-  getDetail(@Param('id') id: number) {
-    return this.locationService.getDetail(id);
+  async getDetail(@Param('id') id: number) {
+    const findItem = await this.locationService.getDetail(id);
+    const locationDetail = {
+      id: findItem.id,
+      name: findItem.name,
+      building: findItem.building,
+      area: findItem.area,
+      parent_id: findItem.parentId,
+      created_at: findItem.createdAt,
+      updated_at: findItem.updatedAt
+    };
+    return new RequestResponse('Get location detail successfully!', locationDetail);
   }
 
   @Post()
-  @UseFilters(new HttpExceptionFilter())
-  create(@Body(new CustomValidationPipe()) createLocationValidator: CreateLocationValidator) {
-    return this.locationService.create(createLocationValidator);
+  async create(@Body(new CustomValidationPipe()) createLocationDto: CreateLocationDto) {
+    const instance = await this.locationService.create(createLocationDto);
+    return new RequestResponse('Create new location successfully!', instance);
   }
 
   @Put(':id')
-  update(@Param('id') id: number, @Body() location: Partial<LocationEntity>) {
-    return this.locationService.update(id, location);
+  async update(@Param('id') id: number, @Body() updateLocationDto: UpdateLocationDto) {
+    const instance = await this.locationService.update(id, updateLocationDto);
+    return new RequestResponse('Update location successfully!', instance);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number) {
-    return this.locationService.deleteById(id);
+  async delete(@Param('id') id: number) {
+    const instance = await this.locationService.deleteById(id);
+    return new RequestResponse('Delete location successfully!', instance);
   }
 }

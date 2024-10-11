@@ -8,6 +8,9 @@ export const DevelopmentConfig: Config = {
     password: '123456',
     database: 'surbana-assignment-db',
     synchronize: true,
+    logging: false,
+    retryAttempts: 15,
+    retryDelay: 5000
   },
   serverConfig: {
     port: '3000'
