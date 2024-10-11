@@ -3,6 +3,10 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 export class CreateLocationValidator {
   @IsString()
   @IsNotEmpty()
+  building: string;
+
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
   @IsString()
@@ -14,5 +18,5 @@ export class CreateLocationValidator {
 
   @IsNumber()
   @IsOptional()
-  parentId?: number;
+  parent_id?: number;
 }

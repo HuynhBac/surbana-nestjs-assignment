@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity("location")
+@Entity('location')
 export class LocationEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -17,6 +17,6 @@ export class LocationEntity {
   @Column({ type: 'float' })
   area: number;
 
-  @Column({ nullable: false, default: -1 })
+  @Column({ name: 'parent_id', nullable: false, default: -1 })
   parentId: number;
 }

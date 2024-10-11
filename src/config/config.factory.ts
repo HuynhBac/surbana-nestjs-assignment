@@ -7,4 +7,7 @@ export interface Config {
     database: string;
     synchronize: boolean;
   };
+  serverConfig: {
+    port: string;
+  }
 }

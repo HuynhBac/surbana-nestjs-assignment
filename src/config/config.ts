@@ -1,7 +1,7 @@
-import { Constant } from "src/utils/constant";
-import { DevelopmentConfig } from "./development";
-import { ProductionConfig } from "./production";
-import { Config } from "src/factory/config.factory";
+import { Constant } from 'src/utils/constant';
+import { DevelopmentConfig } from './development';
+import { ProductionConfig } from './production';
+import { Config } from './config.factory';
 
 const getConfig = () => {
   let config: Config = DevelopmentConfig;

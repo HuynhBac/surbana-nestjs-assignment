@@ -1,38 +1,36 @@
+/*
+https://docs.nestjs.com/providers#services
+*/
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { LocationEntity } from 'src/entities/location.entity';
-import { Repository } from 'typeorm';
+import { LocationModel } from 'src/models/location.model';
 
 @Injectable()
 export class LocationService {
-  constructor(
-    @InjectRepository(LocationEntity)
-    private readonly locationRepository: Repository<LocationEntity>
-  ) {}
+  constructor(private locationModel: LocationModel) {}
 
   // Create new location
   create(location: Partial<LocationEntity>) {
-    const newLocation = this.locationRepository.create(location);
-    return this.locationRepository.save(newLocation);
+    return this.locationModel.create(location);
   }
 
   // Retrieve all locations
-  findAll() {
-    return this.locationRepository.find();
+  getAll() {
+    return this.locationModel.getAll();
   }
 
   // Retrieve location by ID
-  findOne(id: number) {
-    return this.locationRepository.findOne({ where: { id } });
+  getDetail(id: number) {
+    return this.locationModel.getById(id);
   }
 
   // Update location
   update(id: number, location: Partial<LocationEntity>) {
-    return this.locationRepository.update(id, location);
+    return this.locationModel.update(id, location);
   }
 
   // Delete location
-  remove(id: number) {
-    return this.locationRepository.delete(id);
+  deleteById(id: number) {
+    return this.locationModel.deleteById(id);
   }
 }

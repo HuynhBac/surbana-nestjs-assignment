@@ -1,4 +1,4 @@
-import { Config } from "src/factory/config.factory";
+import { Config } from "./config.factory";
 
 export const DevelopmentConfig: Config = {
   postgreDBConfig: {
